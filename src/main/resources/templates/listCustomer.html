@@ -1,11 +1,105 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 </head>
+<script type="text/javascript">
+    function successHandler() {
+        $.ajax({
+            type: "GET",
+            //tên API
+            url: "/list",
+            //xử lý khi thành công
+            success: function (data) {
+                // hien thi danh sach o day
+                let content = '    <tr>\n' +
+                    '        <td>Name</td>\n' +
+                    '        <td>Phone</td>\n' +
+                    '        <td>Provinces</td>\n' +
+                    '        <td>Edit</td>\n' +
+                    '        <td>Delete</td>\n' +
+                    '    </tr>';
+                for (let i = 0; i < data.length; i++) {
+                    content += getCustomer(data[i]);
+                }
+                document.getElementById('customerList').innerHTML = content;
+            }
+        })
+    }
+
+    function getCustomer(customer) {
+        return `<tr><td >${customer.name}</td>
+                        <td >${customer.phone}</td>
+                        <td >${customer.provinces.name}</td>` +
+            `<td><button type="submit" value="${customer.id}" onclick="showEdit(this)">Edit</button></td>` +
+            `<td><button type="submit" value="${customer.id}" onclick="deleteCustomer(this)">Delete</button></td></tr>`
+    }
+
+    function addNewCustomer() {
+        let name = $('#name').val();
+        let phone = $('#phone').val();
+        let provinces = $('#provinces').val();
+        let newcustomer = {
+            name: name,
+            email: phone,
+            provinces: {id: provinces}
+        };
+        $.ajax({
+            headers: {
+                'Accept': 'application/json',
+                'Content-Type': 'application/json'
+            },
+            type: "POST",
+            data: JSON.stringify(newcustomer),
+            url: "/create",
+            success: successHandler()
+        })
+        event.preventDefault();
+    }
+
+</script>
 <body>
-<h1> Hello </h1>
+<form id="add-customer" style="display: none">
+    <h2>Create Customer</h2>
+    <table>
+        <tr>
+            <td>Name:</td>
+            <td><input type="text" id="name" placeholder="name"></td>
+        </tr>
+        <tr>
+            <td>Phone:</td>
+            <td><input type="text" id="phone" placeholder="phone"></td>
+        </tr>
+        <tr>
+            <td>Provinces:</td>
+            <td>
+                <select id="provinces">
+                    <option th:each="a: ${provincesList}" th:value="${a.id}" th:text="${a.name}"></option>
+                </select>
+            </td>
+        </tr>
+        <tr>
+            <td><input type="submit" value="Add" onclick="addNewCustomer()"></td>
+        </tr>
+    </table>
+</form>
+
+<table border="1" id="customerList">
+    <tr>
+        <th>name</th>
+        <th>phone</th>
+        <th>provinces</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="c : ${customerList}">
+        <td th:text="${c.name}"></td>
+        <td th:text="${c.phone}"></td>
+        <td th:if="${c.provinces}" th:text="${c.provinces.name}"></td>
+        <td th:unless="${c.provinces}"></td>
+    </tr>
+</table>
 </body>
 </html>

@@ -1,6 +1,7 @@
 package com.example.springbootajaxcustomer.formatter;
 
 import com.example.springbootajaxcustomer.model.Provinces;
+import com.example.springbootajaxcustomer.service.provinces.IProvincesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.Formatter;
 import org.springframework.stereotype.Component;
@@ -12,10 +13,10 @@ import java.util.Optional;
 @Component
 public class ProvincesFormatter implements Formatter<Provinces> {
 
-    private IProvinceService provinceService;
+    private IProvincesService provinceService;
 
     @Autowired
-    public ProvincesFormatter(IProvinceService provinceService) {
+    public ProvincesFormatter(IProvincesService provinceService) {
         this.provinceService = provinceService;
     }
 

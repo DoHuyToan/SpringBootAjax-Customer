@@ -14,21 +14,12 @@ public class Customer {
     @JoinColumn(name = "provinces-id")
     private Provinces provinces;
 
-    public Customer(Long id, String name, String phone) {
-        this.id = id;
-        this.name = name;
-        this.phone = phone;
-    }
-
     public Customer() {
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
+    public Customer(String name, String phone, Provinces provinces) {
+        this.name = name;
+        this.phone = phone;
+        this.provinces = provinces;
     }
 
     public String getName() {
@@ -45,5 +36,13 @@ public class Customer {
 
     public void setPhone(String phone) {
         this.phone = phone;
+    }
+
+    public Provinces getProvinces() {
+        return provinces;
+    }
+
+    public void setProvinces(Provinces provinces) {
+        this.provinces = provinces;
     }
 }

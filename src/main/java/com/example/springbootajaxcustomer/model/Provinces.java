@@ -20,8 +20,7 @@ public class Provinces {
     public Provinces() {
     }
 
-    public Provinces(Long id, String name, List<Customer> customerList) {
-        this.id = id;
+    public Provinces(String name, List<Customer> customerList) {
         this.name = name;
         this.customerList = customerList;
     }
