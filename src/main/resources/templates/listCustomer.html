@@ -59,6 +59,15 @@
         event.preventDefault();
     }
 
+    function deleteCustomer(a){
+        let id=a.getAttribute("value");
+        $.ajax({
+            type:"DELETE",
+            url:"/customers/delete/"+id,
+            success:successHandler
+        })
+    }
+
 </script>
 <body>
 <form id="add-customer" style="display: block">
@@ -100,7 +109,7 @@
         <td th:if="${c.provinces}" th:text="${c.provinces.name}"></td>
         <td th:unless="${c.provinces}"></td>
         <td><button type="submit" th:value="${c.id}" onclick="editform(this)">Edit</button></td>
-        <td><button type="submit" th:value="${c.id}" onclick="deletecustomer(this)">Delete</button></td>
+        <td><button type="submit" th:value="${c.id}" onclick="deleteCustomer(this)">Delete</button></td>
     </tr>
 </table>
 </body>
