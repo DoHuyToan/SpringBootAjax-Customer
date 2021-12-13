@@ -10,8 +10,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/customers")
+@CrossOrigin("*")
 public class CustomerController {
 
     @Autowired
@@ -30,12 +33,12 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/home")
-    public ModelAndView getAllCustomerPage(){
-        ModelAndView modelAndView = new ModelAndView("/listCustomer");
-        modelAndView.addObject("customerList", customerService.findAll());
-        return modelAndView;
-    }
+//    @GetMapping("/home")
+//    public ModelAndView getAllCustomerPage(){
+//        ModelAndView modelAndView = new ModelAndView("/listCustomer");
+//        modelAndView.addObject("customerList", customerService.findAll());
+//        return modelAndView;
+//    }
 
     @PostMapping("/create")
     public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
@@ -47,6 +50,17 @@ public class CustomerController {
     public ResponseEntity<Customer> delete(@PathVariable Long id){
         customerService.remove(id);
         return new ResponseEntity<>(HttpStatus.OK);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
+        Optional<Customer> customerOptional = customerService.findById(id);
+        if(!customerOptional.isPresent()){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        customer.setId(customerOptional.get().getId());
+        customerService.save(customer);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
     }
 
 }
