@@ -3,15 +3,18 @@ package com.example.springbootajaxcustomer.model;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "customer")
+@Table
 public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String name;
+
     private String phone;
+
     @ManyToOne
-    @JoinColumn(name = "provinces-id")
+    @JoinColumn(name = "provinces_id")
     private Provinces provinces;
 
     public Customer() {
@@ -20,6 +23,14 @@ public class Customer {
         this.name = name;
         this.phone = phone;
         this.provinces = provinces;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getName() {

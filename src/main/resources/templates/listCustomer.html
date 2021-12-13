@@ -10,7 +10,7 @@
         $.ajax({
             type: "GET",
             //tên API
-            url: "/list",
+            url: "/customers/list",
             //xử lý khi thành công
             success: function (data) {
                 // hien thi danh sach o day
@@ -43,7 +43,7 @@
         let provinces = $('#provinces').val();
         let newcustomer = {
             name: name,
-            email: phone,
+            phone: phone,
             provinces: {id: provinces}
         };
         $.ajax({
@@ -53,15 +53,15 @@
             },
             type: "POST",
             data: JSON.stringify(newcustomer),
-            url: "/create",
-            success: successHandler()
+            url: "/customers/create",
+            success: successHandler
         })
         event.preventDefault();
     }
 
 </script>
 <body>
-<form id="add-customer" style="display: none">
+<form id="add-customer" style="display: block">
     <h2>Create Customer</h2>
     <table>
         <tr>
@@ -99,6 +99,8 @@
         <td th:text="${c.phone}"></td>
         <td th:if="${c.provinces}" th:text="${c.provinces.name}"></td>
         <td th:unless="${c.provinces}"></td>
+        <td><button type="submit" th:value="${c.id}" onclick="editform(this)">Edit</button></td>
+        <td><button type="submit" th:value="${c.id}" onclick="deletecustomer(this)">Delete</button></td>
     </tr>
 </table>
 </body>

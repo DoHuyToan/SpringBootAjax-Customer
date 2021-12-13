@@ -6,6 +6,7 @@ import javax.persistence.*;
 import java.util.List;
 
 @Entity
+@Table
 public class Provinces {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -15,14 +16,14 @@ public class Provinces {
 
     @OneToMany(targetEntity = Customer.class)
     @JsonBackReference
-    private List<Customer> customerList;
+    private List<Customer> customer;
 
     public Provinces() {
     }
 
-    public Provinces(String name, List<Customer> customerList) {
+    public Provinces(String name, List<Customer> customer) {
         this.name = name;
-        this.customerList = customerList;
+        this.customer = customer;
     }
 
     public Long getId() {
@@ -41,11 +42,11 @@ public class Provinces {
         this.name = name;
     }
 
-    public List<Customer> getCustomerList() {
-        return customerList;
+    public List<Customer> getCustomer() {
+        return customer;
     }
 
-    public void setCustomerList(List<Customer> customerList) {
-        this.customerList = customerList;
+    public void setCustomer(List<Customer> customer) {
+        this.customer = customer;
     }
 }

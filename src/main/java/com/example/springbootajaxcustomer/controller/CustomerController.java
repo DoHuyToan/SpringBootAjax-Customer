@@ -7,10 +7,7 @@ import com.example.springbootajaxcustomer.service.provinces.IProvincesService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
@@ -33,11 +30,17 @@ public class CustomerController {
         return new ResponseEntity<>(customerService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("")
+    @GetMapping("/home")
     public ModelAndView getAllCustomerPage(){
         ModelAndView modelAndView = new ModelAndView("/listCustomer");
         modelAndView.addObject("customerList", customerService.findAll());
         return modelAndView;
+    }
+
+    @PostMapping("/create")
+    public ResponseEntity<Customer> createCustomer(@RequestBody Customer customer){
+        customerService.save(customer);
+        return new ResponseEntity<>(customer, HttpStatus.CREATED);
     }
 
 
