@@ -52,15 +52,29 @@ public class CustomerController {
         return new ResponseEntity<>(HttpStatus.OK);
     }
 
-    @PutMapping("/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
-        Optional<Customer> customerOptional = customerService.findById(id);
-        if(!customerOptional.isPresent()){
-            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
-        }
-        customer.setId(customerOptional.get().getId());
-        customerService.save(customer);
-        return new ResponseEntity<>(customer, HttpStatus.OK);
+//    @PutMapping("/{id}")
+//    public ResponseEntity<Customer> updateCustomer(@PathVariable Long id, @RequestBody Customer customer){
+//        Optional<Customer> customerOptional = customerService.findById(id);
+//        if(!customerOptional.isPresent()){
+//            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+//        }
+//        customer.setId(customerOptional.get().getId());
+//        customerService.save(customer);
+//        return new ResponseEntity<>(customer, HttpStatus.OK);
+//    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<Customer> showEdit(@PathVariable Long id){
+        return new ResponseEntity<>(customerService.findById(id).get(),HttpStatus.OK);
     }
+
+//    đoạn này ko có Optional sao p chấm get() ???
+
+    @PutMapping("/edit")
+    public ResponseEntity<Customer> Edit(@RequestBody Customer customer){
+        customerService.save(customer);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
+
 
 }
